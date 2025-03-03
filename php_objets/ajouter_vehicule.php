@@ -1,6 +1,7 @@
 <?php
-include("liaison_bdd.php");
 session_start();
+include("liaison_bdd.php");
+
 
 if ($_SESSION['admin'] != 1) {
     header("Location: vehicule.php");

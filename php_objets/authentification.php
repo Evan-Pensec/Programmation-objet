@@ -1,6 +1,7 @@
 <?php
-include("liaison_bdd.php");
 session_start();
+include("liaison_bdd.php");
+
 
 if (isset($_POST['user']) && isset($_POST['password'])) {
     $username = $_POST['user'];
