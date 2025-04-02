@@ -1,24 +1,21 @@
 <?php
-session_start();
-include("liaison_bdd.php");
+require_once 'Database.php';
+require_once 'User.php';
+require_once 'Session.php';
 
+Session::start();
 
-if (isset($_POST['user']) && isset($_POST['password'])) {
+if ($_SERVER['REQUEST_METHOD'] === 'POST' && isset($_POST['user']) && isset($_POST['password'])) {
     $username = $_POST['user'];
     $password = $_POST['password'];
 
-    $sql = "SELECT * FROM user WHERE user = '$username' AND password = '$password'";
-    $resultat = $pdo->query($sql);
-    $utilisateur = $resultat->fetch();
+    $user = User::authenticate($username, $password);
     
-    if ($utilisateur) {
-        $_SESSION['user'] = $username;
-        $_SESSION['admin'] = $utilisateur['admin'];
+    if ($user) {
+        Session::set('user', $username);
+        Session::set('admin', $user->admin);
         header("Location: vehicule.php");
-    }
-
-    if ($_SESSION['admin'] != 1) {
-        header("Location: vehicule.php");
+        exit;
     }
 }
 ?>
@@ -33,7 +30,6 @@ if (isset($_POST['user']) && isset($_POST['password'])) {
 <body>
     <p>Connexion</p>
 
-    
     <form action="authentification.php" method="POST">
         <input type="text" name="user" placeholder="Nom d'utilisateur">
         <input type="password" name="password" placeholder="Mot de passe">

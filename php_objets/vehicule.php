@@ -1,14 +1,15 @@
 <?php
-include("liaison_bdd.php");
-session_start();
+require_once 'Database.php';
+require_once 'Voiture.php';
+require_once 'Session.php';
 
-if (!isset($_SESSION['admin'])) {
-    $_SESSION['admin'] = 0;
+Session::start();
+
+if (!Session::get('admin')) {
+    Session::set('admin', 0);
 }
 
-$sql = "SELECT * FROM vehicule";
-$resultat = $pdo->query($sql);
-
+$vehicules = Voiture::getAllVoiture();
 ?>
 
 <!DOCTYPE html>
@@ -36,32 +37,32 @@ $resultat = $pdo->query($sql);
             <th>Type</th>
             <th>Statut</th>
             <th>Prix par jour</th>
-            <?php if ($_SESSION['admin'] == 1): ?>
+            <?php if (Session::isAdmin()): ?>
                 <th>Actions</th>
             <?php endif; ?>
         </tr>
         <?php
-        while ($row = $resultat->fetch()) {
-            echo "<tr>";
-            echo "<td>" . $row['modele'] . "</td>";
-            echo "<td>" . $row['marque'] . "</td>";
-            echo "<td>" . $row['immatriculation'] . "</td>";
-            echo "<td>" . $row['type'] . "</td>";
-            echo "<td>" . $row['statut'] . "</td>";
-            echo "<td>" . $row['prix_jour'] . "</td>";
+        foreach($vehicules as $vehicule) {
+            echo "<tr>
+                <td>" . $vehicule->modele . "</td>
+                <td>" . $vehicule->marque . "</td>
+                <td>" . $vehicule->immatriculation . "</td>
+                <td>" . $vehicule->type . "</td>
+                <td>" . $vehicule->statut . "</td>
+                <td>" . $vehicule->prix . "</td>";
             
-            if ($_SESSION['admin'] == 1) {
-                echo "<td>";
-                echo "<a href='modifier_vehicule.php?id=" . $row['id'] . "'>Modifier</a> ";
-                echo "<a href='supprimer_vehicule.php?id=" . $row['id'] . "'>Supprimer</a>";
-                echo "</td>";
+            if (Session::isAdmin()) {
+                echo "<td>
+                    <a href='modifier_vehicule.php?id=" . $vehicule->id . "'>Modifier</a> 
+                    <a href='supprimer_vehicule.php?id=" . $vehicule->id . "'>Supprimer</a>
+                </td>";
             }
             echo "</tr>";
         }
         ?>
     </table>
 
-    <?php if ($_SESSION['admin'] == 1): ?>
+    <?php if (Session::isAdmin()): ?>
         <p>Ajouter</p>
         <form action="ajouter_vehicule.php" method="POST">
             <input type="text" name="modele" placeholder="Modèle" required>
@@ -77,7 +78,7 @@ $resultat = $pdo->query($sql);
         </form>
     <?php endif; ?>
     
-    <?php if (isset($_SESSION['user'])): ?>
+    <?php if (Session::get('user')): ?>
         <p><a href="deconnexion.php">Déconnexion</a></p>
     <?php else: ?>
         <p><a href="authentification.php">Connexion</a></p>
