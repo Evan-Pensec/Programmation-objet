@@ -1,8 +1,5 @@
 <?php
 
-error_reporting(E_ALL);
-ini_set('display_errors', 1);
-
 include("liaison_bdd.php");
 session_start();
 
@@ -21,7 +18,7 @@ $resultat = $pdo->query($sql);
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Liste des véhicules</title>
-    <link rel="stylesheet" href="testjs.css">
+    <link rel="stylesheet" href="vehicule.css">
     <style>
         table, th, td {
             border: 1px solid black;
@@ -30,7 +27,24 @@ $resultat = $pdo->query($sql);
 </head>
 
 <body>
-    <p>Liste des véhicules</p>
+    <div id="header">
+        <h1>Location de voiture</h1>
+    </div>
+
+    <p>Chercher un véhicule :</p>
+
+    <main>
+	<form action="searchdb.php" method="post">
+		<input
+			type="text"
+			placeholder="Enter your search term"
+			name="search"
+			required>
+		<button type="submit" name="submit">Search</button>
+	</form>
+</main>
+
+    <p>Liste des véhicules :</p>
     
     <table>
         <tr>
@@ -56,9 +70,8 @@ $resultat = $pdo->query($sql);
             
             if ($_SESSION['admin'] == 1) {
                 echo "<td>";
-                echo "<a href='modifier_vehicule.php?id=" . $row['id'] . "'>Modifier</a> ";
-                echo "<a href='supprimer_vehicule.php?id=" . $row['id'] . "'>Supprimer</a>";
-                echo "</td>";
+                echo "<a href='gestion_vehicules.php?action=modifier&id=" . $row['id'] . "'>Modifier</a> ";
+                echo "<a href='gestion_vehicules.php?action=supprimer&id=" . $row['id'] . "'>Supprimer</a>";                echo "</td>";
             }
             echo "</tr>";
         }
@@ -66,8 +79,9 @@ $resultat = $pdo->query($sql);
     </table>
 
     <?php if ($_SESSION['admin'] == 1): ?>
-        <p>Ajouter</p>
-        <form action="ajouter_vehicule.php" method="POST">
+        <p>Ajouter :</p>
+        <form action="gestion_vehicules.php" method="POST">
+        <input type="hidden" name="action" value="ajouter">
             <input type="text" name="modele" placeholder="Modèle" required>
             <input type="text" name="marque" placeholder="Marque" required>
             <input type="text" name="immatriculation" placeholder="Immatriculation" required>

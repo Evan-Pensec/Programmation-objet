@@ -8,7 +8,7 @@ if ($_SESSION['admin'] != 1) {
     exit;
 }
 
-if (isset($_POST['modele']) && isset($_POST['marque']) && isset($_POST['immatriculation']) && isset($_POST['type']) && isset($_POST['statut']) && isset($_POST['prix_jour'])) {
+if (isset($_POST['modele']) && isset($_POST['marque']) && isset($_POST['immatriculation']) && isset($_POST['type']) && isset($_POST['statut']) && isset($_POST['prix'])) {
     
     $modele = $_POST['modele'];
     $marque = $_POST['marque'];
@@ -17,7 +17,7 @@ if (isset($_POST['modele']) && isset($_POST['marque']) && isset($_POST['immatric
     $statut = $_POST['statut'];
     $prix = $_POST['prix'];
     
-    $sql = "INSERT INTO vehicule (modele, marque, immatriculation, type, statut, prix_jour) VALUES ('$modele', '$marque', '$immatriculation', '$type', '$statut', '$prix')";
+    $sql = "INSERT INTO vehicule (modele, marque, immatriculation, type, statut, prix) VALUES ('$modele', '$marque', '$immatriculation', '$type', '$statut', '$prix')";
     $pdo->exec($sql);
     
     header("Location: vehicule.php");

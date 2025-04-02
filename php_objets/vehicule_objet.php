@@ -77,7 +77,5 @@ $resultat = $pdo->query($sql);
     <?php else: ?>
         <p><a href="authentification.php">Connexion</a></p>
     <?php endif; ?>
-    
-    
 </body>
 </html>
