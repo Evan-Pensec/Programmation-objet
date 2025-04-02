@@ -15,7 +15,7 @@ if (isset($_POST['modele']) && isset($_POST['marque']) && isset($_POST['immatric
     $immatriculation = $_POST['immatriculation'];
     $type = $_POST['type'];
     $statut = $_POST['statut'];
-    $prix = $_POST['prix_jour'];
+    $prix = $_POST['prix'];
     
     $sql = "INSERT INTO vehicule (modele, marque, immatriculation, type, statut, prix_jour) VALUES ('$modele', '$marque', '$immatriculation', '$type', '$statut', '$prix')";
     $pdo->exec($sql);

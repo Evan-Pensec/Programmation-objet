@@ -52,7 +52,7 @@ $resultat = $pdo->query($sql);
             echo "<td>" . $row['immatriculation'] . "</td>";
             echo "<td>" . $row['type'] . "</td>";
             echo "<td>" . $row['statut'] . "</td>";
-            echo "<td>" . $row['prix_jour'] . "</td>";
+            echo "<td>" . $row['prix'] . "</td>";
             
             if ($_SESSION['admin'] == 1) {
                 echo "<td>";
@@ -76,7 +76,7 @@ $resultat = $pdo->query($sql);
                 <option value="1">Peut être loué</option>
                 <option value="0">Ne peut pas être loué</option>
             </select>
-            <input type="number" name="prix_jour" placeholder="Prix par jour" required>
+            <input type="number" name="prix" placeholder="Prix par jour" required>
             <input type="submit" value="Ajouter">
         </form>
     <?php endif; ?>

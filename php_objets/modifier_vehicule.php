@@ -65,8 +65,8 @@ if (isset($_POST['modele']) && isset($_POST['marque']) && isset($_POST['immatric
                 <option value="0" <?php if ($vehicule['statut'] == 0) echo "selected"; ?>>Ne peut pas être loué</option>
             </select>
             
-            <label for="prix_jour">Prix par jour:</label>
-            <input type="number" name="prix_jour" value="<?php echo $vehicule['prix_jour']; ?>" required>
+            <label for="prix">Prix par jour:</label>
+            <input type="number" name="prix" value="<?php echo $vehicule['prix']; ?>" required>
             
             <input type="submit" value="Modifier">
         </form>
