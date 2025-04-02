@@ -1,6 +1,5 @@
 <?php
-require_once 'Session.php';
-
-Session::destroy();
+session_start();
+session_destroy();
 header("Location: authentification.php");
 ?>

@@ -1,20 +1,19 @@
 <?php
-require_once 'Database.php';
-require_once 'Voiture.php';
-require_once 'Session.php';
+session_start();
+include("liaison_bdd.php");
 
-Session::start();
 
-if (!Session::isAdmin()) {
+if ($_SESSION['admin'] != 1) {
     header("Location: vehicule.php");
     exit;
 }
 
 if (isset($_GET['id'])) {
-    $vehicule = Voiture::getVoitureById($_GET['id']);
-    if ($vehicule) {
-        $vehicule->delete();
-    }
+    $id = $_GET['id'];
+    
+    $sql = "DELETE FROM vehicule WHERE id = " . $id;
+    $pdo->exec($sql);
+    
+    header("Location: vehicule.php");
 }
-
-header("Location: vehicule.php");
+?>
