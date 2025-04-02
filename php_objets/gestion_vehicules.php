@@ -109,7 +109,7 @@ $vehicules = $gestionVehicule->getAllVehicules();
             
             <input type="submit" value="Modifier">
         </form>
-        <p><a href="gestion_vehicules.php">Annuler la modification</a></p>
+        <p><a href="vehicule.php">Annuler la modification</a></p>
     <?php else: ?>
         <h2>Ajouter un véhicule</h2>
         <form action="gestion_vehicules.php" method="POST">

@@ -35,12 +35,7 @@ $resultat = $pdo->query($sql);
 
     <main>
 	<form action="searchdb.php" method="post">
-		<input
-			type="text"
-			placeholder="Enter your search term"
-			name="search"
-			required>
-		<button type="submit" name="submit">Search</button>
+		<button type="submit" name="submit">Effectuer une recherche</button>
 	</form>
 </main>
 
