@@ -19,7 +19,7 @@ public function __construct($id, $modele, $marque, $immatriculation, $type, $sta
 }
 
 public static function getVoiture(){
-    global $pdo;
+    include("liaison_bdd.php");
     $sql = "SELECT * FROM vehicule";
     $resultat = $pdo->query($sql);
     $vehicules = [];

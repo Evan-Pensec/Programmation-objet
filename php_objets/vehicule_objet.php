@@ -42,7 +42,7 @@ $resultat = $pdo->query($sql);
         </tr>
         <?php
         require "Voiture.php";
-        $vehicules = Voiture::getAllVoiture();
+        $vehicules = Voiture::getVoiture();
         foreach($vehicules as $vehicule){
             echo "<tr>
     <td>" . $vehicule->modele . "</td>

@@ -16,10 +16,9 @@ if (isset($_POST['user']) && isset($_POST['password'])) {
         $_SESSION['user'] = $username;
         $_SESSION['admin'] = $utilisateur['admin'];
         header("Location: vehicule.php");
-    }
-
-    if ($_SESSION['admin'] != 1) {
-        header("Location: vehicule.php");
+    exit;
+    } else {
+        $error = "Nom d'utilisateur ou mot de passe incorrect";
     }
 }
 ?>
