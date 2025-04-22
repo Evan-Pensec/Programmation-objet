@@ -27,15 +27,19 @@ $result = $conn->query($sql);
 ?>
 
 <!DOCTYPE html>
-<html>
+<html lang="fr">
 <head>
-    <title>Recherche de véhicules</title>
     <meta charset="UTF-8">
-    <style>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Liste des véhicules</title>
+    <link rel="stylesheet" href="../styles/vehicule.css">
         
     </style>
 </head>
 <body>
+    <div id="header">
+        <h1>Location de voiture</h1>
+    </div>
     <h2>Recherche de véhicules</h2>
     
     <div class="search-container">

@@ -81,8 +81,7 @@ $vehicules = $gestionVehicule->getAllVehicules();
             <?php if ($_SESSION['admin'] == 1): ?>
             <td class="actions">
                 <a href="form_vehicule.php?id=<?php echo $v['id']; ?>" class="btn-modifier">Modifier</a>
-                <a href="vehicule_action.php?action=supprimer&id=<?php echo $v['id']; ?>" class="btn-supprimer" 
-                onclick="return confirm('Êtes-vous sûr de vouloir supprimer ce véhicule ?');">Supprimer</a>
+                <a href="vehicule_action.php?action=supprimer&id=<?php echo $v['id']; ?>" class="btn-supprimer">Supprimer</a>
             </td>
             <?php endif; ?>
             
