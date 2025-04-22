@@ -1,7 +1,7 @@
 <?php
 session_start();
-include("liaison_bdd.php");
-include("GestionVehicule.php");
+include("../bdd/liaison_bdd.php");
+include("../class/GestionVehicule.php");
 
 if (!isset($_SESSION['admin']) || $_SESSION['admin'] != 1) {
     header("Location: vehicule.php");
