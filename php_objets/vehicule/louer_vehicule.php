@@ -28,15 +28,16 @@ if (isset($_POST['date_debut']) && isset($_POST['date_fin'])) {
     $date_debut = $_POST['date_debut'];
     $date_fin = $_POST['date_fin'];
     $username = $_SESSION['user'];
-    
-    $sql = "INSERT INTO locations (id_vehicule, username, date_debut, date_fin, prix_total) 
-            VALUES (?, ?, ?, ?, ?)";
+    $id_vehicule = $_GET['id'];
     
     $date1 = new DateTime($date_debut);
     $date2 = new DateTime($date_fin);
     $interval = $date1->diff($date2);
     $nombre_jours = $interval->days + 1;
     $prix_total = $nombre_jours * $vehicule['prix'];
+    
+    $sql = "INSERT INTO locations (id_vehicule, username, date_debut, date_fin, prix_total) 
+            VALUES ($id_vehicule, $username, $date_debut, $date_fin, $prix_total)";
     
     $stmt = $pdo->prepare($sql);
     $stmt->execute([$id_vehicule, $username, $date_debut, $date_fin, $prix_total]);

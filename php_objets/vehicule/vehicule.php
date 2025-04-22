@@ -1,14 +1,15 @@
 <?php
-
-include("../bdd/liaison_bdd.php");
 session_start();
+include("../bdd/liaison_bdd.php");
+include("../class/Controller.php");
+
+$controller = new Controller($pdo);
 
 if (!isset($_SESSION['admin'])) {
     $_SESSION['admin'] = 0;
 }
 
-$sql = "SELECT * FROM vehicule";
-$resultat = $pdo->query($sql);
+$vehicules = $controller->getAllVehicules();
 
 ?>
 
@@ -22,7 +23,10 @@ $resultat = $pdo->query($sql);
     <style>
         table, th, td {
             border: 1px solid black;
+            border-collapse: collapse;
+            padding: 8px;
         }
+        
     </style>
 </head>
 
@@ -31,19 +35,28 @@ $resultat = $pdo->query($sql);
         <h1>Location de voiture</h1>
     </div>
 
+
     <p>Chercher un véhicule :</p>
 
     <main>
-	<form action="searchdb.php" method="post">
-		<button type="submit" name="submit">Effectuer une recherche</button>
-	</form>
-</main>
+        <form action="searchdb.php" method="get">
+            <input type="text" name="recherche" placeholder="Rechercher...">
+            <select name="critere">
+                <option value="tous">Tous les critères</option>
+                <option value="modele">Modèle</option>
+                <option value="marque">Marque</option>
+                <option value="immatriculation">Immatriculation</option>
+                <option value="prix">Prix</option>
+            </select>
+            <button type="submit">Rechercher</button>
+        </form>
+    </main>
 
     <p>Liste des véhicules :</p>
     
     <table>
         <tr>
-            <th>Modele</th>
+            <th>Modèle</th>
             <th>Marque</th>
             <th>Immatriculation</th>
             <th>Type</th>
@@ -53,60 +66,49 @@ $resultat = $pdo->query($sql);
                 <th>Actions</th>
             <?php endif; ?>
             <?php if (isset($_SESSION['user'])): ?>
-                <th>Locations</th>
+                <th>Location</th>
             <?php endif; ?>
         </tr>
-        <?php
-        while ($row = $resultat->fetch()) {
-            echo "<tr>";
-            echo "<td>" . $row['modele'] . "</td>";
-            echo "<td>" . $row['marque'] . "</td>";
-            echo "<td>" . $row['immatriculation'] . "</td>";
-            echo "<td>" . $row['type'] . "</td>";
-            echo "<td>" . $row['statut'] . "</td>";
-            echo "<td>" . $row['prix'] . "</td>";
+        <?php foreach ($vehicules as $v): ?>
+        <tr>
+            <td><?php echo $v['modele']; ?></td>
+            <td><?php echo $v['marque']; ?></td>
+            <td><?php echo $v['immatriculation']; ?></td>
+            <td><?php echo $v['type']; ?></td>
+            <td><?php echo $v['statut'] == 1 ? 'Disponible' : 'Indisponible'; ?></td>
+            <td><?php echo $v['prix']; ?> €</td>
             
-            if ($_SESSION['admin'] == 1) {
-                echo "<td>";
-                echo "<a href='gestion_vehicules.php?action=modifier&id=" . $row['id'] . "'>Modifier</a> ";
-                echo "<a href='gestion_vehicules.php?action=supprimer&id=" . $row['id'] . "'>Supprimer</a>";
-                echo "</td>";
-            }
+            <?php if ($_SESSION['admin'] == 1): ?>
+            <td class="actions">
+                <a href="form_vehicule.php?id=<?php echo $v['id']; ?>" class="btn-modifier">Modifier</a>
+                <a href="vehicule_action.php?action=supprimer&id=<?php echo $v['id']; ?>" class="btn-supprimer" 
+                onclick="return confirm('Êtes-vous sûr de vouloir supprimer ce véhicule ?');">Supprimer</a>
+            </td>
+            <?php endif; ?>
             
-            echo "<td>";
-            if ($row['statut'] == 1) {
-                echo "<a href='louer_vehicule.php?id=" . $row['id'] . "' class='btn-louer'>Louer</a>";
-            } else {
-                echo "Non disponible";
-            }
-            echo "</td>";
-            
-            echo "</tr>";
-        }
-        ?>
+            <?php if (isset($_SESSION['user'])): ?>
+            <td>
+                <?php if ($v['statut'] == 1): ?>
+                    <a href="louer_vehicule.php?id=<?php echo $v['id']; ?>" class="btn-louer">Louer</a>
+                <?php else: ?>
+                    Non disponible
+                <?php endif; ?>
+            </td>
+            <?php endif; ?>
+        </tr>
+        <?php endforeach; ?>
     </table>
 
     <?php if ($_SESSION['admin'] == 1): ?>
-        <p>Ajouter :</p>
-        <form action="gestion_vehicules.php" method="POST">
-        <input type="hidden" name="action" value="ajouter">
-            <input type="text" name="modele" placeholder="Modèle" required>
-            <input type="text" name="marque" placeholder="Marque" required>
-            <input type="text" name="immatriculation" placeholder="Immatriculation" required>
-            <input type="text" name="type" placeholder="Type" required>
-            <select name="statut">
-                <option value="1">Peut être loué</option>
-                <option value="0">Ne peut pas être loué</option>
-            </select>
-            <input type="number" name="prix" placeholder="Prix par jour" required>
-            <input type="submit" value="Ajouter">
-        </form>
+        <p><a href="form_vehicule.php" class="btn-ajouter">Ajouter un véhicule</a></p>
     <?php endif; ?>
     
-    <?php if (isset($_SESSION['user'])): ?>
-        <p><a href="../connexion/deconnexion.php">Déconnexion</a></p>
-    <?php else: ?>
-        <p><a href="../connexion/authentification.php">Connexion</a></p>
-    <?php endif; ?>
+    <div class="navigation">
+        <?php if (isset($_SESSION['user'])): ?>
+            <p><a href="../connexion/deconnexion.php">Déconnexion</a></p>
+        <?php else: ?>
+            <p><a href="../connexion/authentification.php">Connexion</a></p>
+        <?php endif; ?>
+    </div>
 </body>
 </html>
