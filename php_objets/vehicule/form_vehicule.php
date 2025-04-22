@@ -1,21 +1,21 @@
 <?php
 session_start();
 include("../bdd/liaison_bdd.php");
-include("../class/Controller.php");
+include("../class/GestionVehicule.php");
 
 if (!isset($_SESSION['admin']) || $_SESSION['admin'] != 1) {
     header("Location: vehicule.php");
     exit;
 }
 
-$controller = new Controller($pdo);
+$gestionVehicule = new GestionVehicule($pdo);
 $vehicule = null;
 $action = "ajouter";
 $titre = "Ajouter un véhicule";
 
 if (isset($_GET['id'])) {
     $id = $_GET['id'];
-    $vehicule = $controller->getVehiculeById($id);
+    $vehicule = $gestionVehicule->getVehiculeById($id);
     
     if ($vehicule) {
         $action = "modifier";

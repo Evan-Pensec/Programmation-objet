@@ -1,15 +1,15 @@
 <?php
 session_start();
 include("../bdd/liaison_bdd.php");
-include("../class/Controller.php");
+include("../class/GestionVehicule.php");
 
-$controller = new Controller($pdo);
+$gestionVehicule = new GestionVehicule($pdo);
 
 if (!isset($_SESSION['admin'])) {
     $_SESSION['admin'] = 0;
 }
 
-$vehicules = $controller->getAllVehicules();
+$vehicules = $gestionVehicule->getAllVehicules();
 
 ?>
 

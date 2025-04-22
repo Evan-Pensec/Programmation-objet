@@ -1,14 +1,14 @@
 <?php
 session_start();
 include("../bdd/liaison_bdd.php");
-include("../class/Controller.php");
+include("../class/GestionVehicule.php");
 
 if (!isset($_SESSION['admin']) || $_SESSION['admin'] != 1) {
     header("Location: vehicule.php");
     exit;
 }
 
-$controller = new Controller($pdo);
+$gestionVehicule = new GestionVehicule($pdo);
 
 if (isset($_POST['action'])) {
     if ($_POST['action'] == 'ajouter' && isset($_POST['modele']) && isset($_POST['marque']) 
@@ -22,7 +22,7 @@ if (isset($_POST['action'])) {
         $statut = $_POST['statut'];
         $prix = $_POST['prix'];
         
-        $controller->ajouterVehicule($modele, $marque, $immatriculation, $type, $statut, $prix);
+        $gestionVehicule->ajouter($modele, $marque, $immatriculation, $type, $statut, $prix);
         
         header("Location: vehicule.php");
         exit;
@@ -40,7 +40,7 @@ if (isset($_POST['action'])) {
         $statut = $_POST['statut'];
         $prix = $_POST['prix'];
         
-        $controller->modifierVehicule($id, $modele, $marque, $immatriculation, $type, $statut, $prix);
+        $gestionVehicule->modifier($id, $modele, $marque, $immatriculation, $type, $statut, $prix);
         
         header("Location: vehicule.php");
         exit;
@@ -49,7 +49,7 @@ if (isset($_POST['action'])) {
 
 if (isset($_GET['action']) && $_GET['action'] == 'supprimer' && isset($_GET['id'])) {
     $id = $_GET['id'];
-    $controller->supprimerVehicule($id);
+    $gestionVehicule->supprimer($id);
     
     header("Location: vehicule.php");
     exit;
@@ -63,7 +63,7 @@ if (isset($_GET['action']) && $_GET['action'] == 'louer' && isset($_GET['id'])
     $date_debut = $_POST['date_debut'];
     $date_fin = $_POST['date_fin'];
     
-    $resultat = $controller->louerVehicule($id_vehicule, $username, $date_debut, $date_fin);
+    $resultat = $gestionVehicule->louerVehicule($id_vehicule, $username, $date_debut, $date_fin);
     
     if ($resultat) {
         header("Location: vehicule.php");
