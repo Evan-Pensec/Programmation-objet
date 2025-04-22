@@ -4,7 +4,7 @@ include("../bdd/liaison_bdd.php");
 include("../class/GestionVehicule.php");
 
 if (!isset($_SESSION['admin']) || $_SESSION['admin'] != 1) {
-    header("Location: vehicule.php");
+    header("Location: index.php");
     exit;
 }
 
@@ -81,8 +81,9 @@ if (isset($_GET['id'])) {
         
         <div class="form-buttons">
             <button type="submit" class="btn-submit"><?php echo $action == "ajouter" ? "Ajouter" : "Modifier"; ?></button>
-            <a href="vehicule.php" class="btn-cancel">Annuler</a>
+            <a href="index.php" class="btn-cancel">Annuler</a>
         </div>
     </form>
+    <script src="../js/vehicule.js"></script>
 </body>
 </html>

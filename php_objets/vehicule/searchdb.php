@@ -86,9 +86,10 @@ $result = $conn->query($sql);
         ?>
     </table>
     <br>
-    <a href="vehicule.php">Acceuil</a>
+    <a href="index.php">Acceuil</a>
     <?php
     $conn->close();
     ?>
+    <script src="../js/vehicule.js"></script>
 </body>
 </html>

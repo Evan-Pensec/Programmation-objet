@@ -14,7 +14,7 @@ if (isset($_POST['user']) && isset($_POST['password'])) {
     if ($utilisateur) {
         $_SESSION['user'] = $username;
         $_SESSION['admin'] = $utilisateur['admin'];
-        header("Location: ../vehicule/vehicule.php");
+        header("Location: ../vehicule/index.php");
     exit;
     } else {
         $error = "Nom d'utilisateur ou mot de passe incorrect";
@@ -39,7 +39,7 @@ if (isset($_POST['user']) && isset($_POST['password'])) {
         <button type="submit">Se connecter</button>
     </form>
     
-    <p><a href="../vehicule/vehicule.php">Voir les véhicules</a></p>
+    <p><a href="../vehicule/index.php">Voir les véhicules</a></p>
     
     <script src="testjs.js"></script>
 </body>

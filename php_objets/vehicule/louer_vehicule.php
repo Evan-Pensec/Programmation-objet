@@ -8,7 +8,7 @@ if (!isset($_SESSION['user'])) {
 }
 
 if (!isset($_GET['id'])) {
-    header("Location: vehicule.php");
+    header("Location: index.php");
     exit;
 }
 
@@ -20,7 +20,7 @@ $stmt->execute([$id_vehicule]);
 $vehicule = $stmt->fetch();
 
 if (!$vehicule) {
-    header("Location: vehicule.php");
+    header("Location: index.php");
     exit;
 }
 
@@ -37,7 +37,7 @@ if (isset($_POST['date_debut']) && isset($_POST['date_fin'])) {
     $prix_total = $nombre_jours * $vehicule['prix'];
     
     $sql = "INSERT INTO locations (id_vehicule, username, date_debut, date_fin, prix_total) 
-            VALUES ($id_vehicule, $username, $date_debut, $date_fin, $prix_total)";
+            VALUES (?, ?, ?, ?, ?)";
     
     $stmt = $pdo->prepare($sql);
     $stmt->execute([$id_vehicule, $username, $date_debut, $date_fin, $prix_total]);
@@ -65,16 +65,16 @@ if (isset($_POST['date_debut']) && isset($_POST['date_fin'])) {
     <h2>Louer ce véhicule</h2>
     
     <div class="vehicle-details">
-        <p>Modèle: <?php echo $vehicule['modele']; ?></p>
-        <p>Marque: <?php echo $vehicule['marque']; ?></p>
-        <p>Immatriculation: <?php echo $vehicule['immatriculation']; ?></p>
-        <p>Type: <?php echo $vehicule['type']; ?></p>
-        <p>Prix par jour: <?php echo $vehicule['prix']; ?> €</p>
+        <p>Modèle : <?php echo $vehicule['modele']; ?></p>
+        <p>Marque : <?php echo $vehicule['marque']; ?></p>
+        <p>Immatriculation : <?php echo $vehicule['immatriculation']; ?></p>
+        <p>Type : <?php echo $vehicule['type']; ?></p>
+        <p>Prix par jour : <?php echo $vehicule['prix']; ?> €</p>
     </div>
     
     <form action="louer_vehicule.php?id=<?php echo $id_vehicule; ?>" method="POST">
         <div class="form-group">
-            <label for="date_debut">Date de début:</label>
+            <label for="date_debut">Date de début :</label>
             <input type="date" id="date_debut" name="date_debut" required 
                 min="<?php echo date('Y-m-d'); ?>">
         </div>
@@ -88,33 +88,8 @@ if (isset($_POST['date_debut']) && isset($_POST['date_fin'])) {
         <button type="submit" class="btn-submit">Confirmer la location</button>
     </form>
     
-    <p><a href="vehicule.php">Retour à la liste des véhicules</a></p>
+    <p><a href="index.php">Retour à la liste des véhicules</a></p>
     
-    <script>
-        document.addEventListener('DOMContentLoaded', function() {
-            const dateDébut = document.getElementById('date_debut');
-            const dateFin = document.getElementById('date_fin');
-            const prixJour = <?php echo $vehicule['prix']; ?>;
-            
-            function calculerPrix() {
-                if (dateDébut.value && dateFin.value) {
-                    const debut = new Date(dateDébut.value);
-                    const fin = new Date(dateFin.value);
-                    
-                    if (fin >= debut) {
-                        const diffTemps = fin.getTime() - debut.getTime();
-                        const diffJours = Math.ceil(diffTemps / (1000 * 3600 * 24)) + 1;
-                        const prixTotal = diffJours * prixJour;
-                        
-                        document.querySelector('.vehicle-details').innerHTML += 
-                            `<p id="prix-total">Prix total estimé: ${prixTotal} € (${diffJours} jours)</p>`;
-                    }
-                }
-            }
-            
-            dateDébut.addEventListener('change', calculerPrix);
-            dateFin.addEventListener('change', calculerPrix);
-        });
-    </script>
+    <script src="../js/vehicule.js"></script>
 </body>
 </html>

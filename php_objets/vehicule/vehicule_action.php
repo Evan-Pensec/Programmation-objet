@@ -4,7 +4,7 @@ include("../bdd/liaison_bdd.php");
 include("../class/GestionVehicule.php");
 
 if (!isset($_SESSION['admin']) || $_SESSION['admin'] != 1) {
-    header("Location: vehicule.php");
+    header("Location: index.php");
     exit;
 }
 
@@ -24,7 +24,7 @@ if (isset($_POST['action'])) {
         
         $gestionVehicule->ajouter($modele, $marque, $immatriculation, $type, $statut, $prix);
         
-        header("Location: vehicule.php");
+        header("Location: index.php");
         exit;
     }
     
@@ -42,7 +42,7 @@ if (isset($_POST['action'])) {
         
         $gestionVehicule->modifier($id, $modele, $marque, $immatriculation, $type, $statut, $prix);
         
-        header("Location: vehicule.php");
+        header("Location: index.php");
         exit;
     }
 }
@@ -51,7 +51,7 @@ if (isset($_GET['action']) && $_GET['action'] == 'supprimer' && isset($_GET['id'
     $id = $_GET['id'];
     $gestionVehicule->supprimer($id);
     
-    header("Location: vehicule.php");
+    header("Location: index.php");
     exit;
 }
 
@@ -66,13 +66,13 @@ if (isset($_GET['action']) && $_GET['action'] == 'louer' && isset($_GET['id'])
     $resultat = $gestionVehicule->louerVehicule($id_vehicule, $username, $date_debut, $date_fin);
     
     if ($resultat) {
-        header("Location: vehicule.php");
+        header("Location: index.php");
     } else {
-        header("Location: vehicule.php");
+        header("Location: index.php");
     }
     exit;
 }
 
-header("Location: vehicule.php");
+header("Location: index.php");
 exit;
 ?>

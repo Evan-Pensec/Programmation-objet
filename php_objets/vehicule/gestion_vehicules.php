@@ -4,7 +4,7 @@ include("../bdd/liaison_bdd.php");
 include("../class/GestionVehicule.php");
 
 if (!isset($_SESSION['admin']) || $_SESSION['admin'] != 1) {
-    header("Location: vehicule.php");
+    header("Location: index.php");
     exit;
 }
 
@@ -23,7 +23,7 @@ if (isset($_POST['action']) && $_POST['action'] == 'ajouter') {
         
         $gestionVehicule->ajouter($modele, $marque, $immatriculation, $type, $statut, $prix);
         
-        header("Location: vehicule.php");
+        header("Location: index.php");
         exit;
     }
 }
@@ -42,7 +42,7 @@ if (isset($_POST['action']) && $_POST['action'] == 'modifier') {
         
         $gestionVehicule->modifier($id, $modele, $marque, $immatriculation, $type, $statut, $prix);
         
-        header("Location: vehicule.php");
+        header("Location: index.php");
         exit;
     }
 }
@@ -51,7 +51,7 @@ if (isset($_GET['action']) && $_GET['action'] == 'supprimer' && isset($_GET['id'
     $id = $_GET['id'];
     $gestionVehicule->supprimer($id);
     
-    header("Location: vehicule.php");
+    header("Location: index.php");
     exit;
 }
 
@@ -109,7 +109,7 @@ $vehicules = $gestionVehicule->getAllVehicules();
             
             <input type="submit" value="Modifier">
         </form>
-        <p><a href="vehicule.php">Annuler la modification</a></p>
+        <p><a href="index.php">Annuler la modification</a></p>
     <?php else: ?>
         <h2>Ajouter un véhicule</h2>
         <form action="gestion_vehicules.php" method="POST">
@@ -161,12 +161,13 @@ $vehicules = $gestionVehicule->getAllVehicules();
             <td><?php echo $v['prix']; ?></td>
             <td>
                 <a href="gestion_vehicules.php?action=modifier&id=<?php echo $v['id']; ?>">Modifier</a> 
-                <a href="gestion_vehicules.php?action=supprimer&id=<?php echo $v['id']; ?>" onclick="return confirm('Êtes-vous sûr de vouloir supprimer ce véhicule ?');">Supprimer</a>
+                <a href="gestion_vehicules.php?action=supprimer&id=<?php echo $v['id']; ?>">Supprimer</a>
             </td>
         </tr>
         <?php endforeach; ?>
     </table>
     
-    <p><a href="vehicule.php">Retour à la liste des véhicules</a></p>
+    <p><a href="index.php">Retour à la liste des véhicules</a></p>
+    <script src="../js/vehicule.js"></script>
 </body>
 </html>
